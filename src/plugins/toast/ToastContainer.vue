@@ -1,21 +1,25 @@
 <template>
-  <div class="relative inset-0 pointer-events-none">
-    <Toast
-      v-for="toast in toasts"
-      :key="toast.key"
-      :message="toast.message"
-      :type="toast.type"
-      :duration="toast.duration"
-      :show-close="toast.showClose"
-      @close="() => toast.resolve()"
-    />
-  </div>
+  <Fragment name="toast">
+    <slot name="default" />
+    <div class="relative inset-0 pointer-events-none">
+      <Toast
+        v-for="toast in toasts"
+        :key="toast.key"
+        :message="toast.message"
+        :type="toast.type"
+        :duration="toast.duration"
+        :show-close="toast.showClose"
+        @close="() => toast.resolve()"
+      />
+    </div>
+  </Fragment>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
-import Toast from './Toast.vue'
+import { Fragment } from 'vue-fragment'
 
+import Toast from './Toast.vue'
 import { toast } from './index'
 
 type ToastInstance = InstanceType<typeof Toast>
@@ -23,7 +27,8 @@ type ToastInstance = InstanceType<typeof Toast>
 export default Vue.extend({
   name: 'ToastContainer',
   components: {
-    Toast
+    Toast,
+    Fragment
   },
   provide () {
     return {
